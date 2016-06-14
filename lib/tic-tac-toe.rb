@@ -47,20 +47,7 @@ class TicTacToe
     # Clear the board for a new game
     board.clear
 
-    # establish players
-    ## create player one
-    puts "What is your name?"
-    name = gets.chomp
-
-    # if the player exists, assign it to Player One
-    player_one = Player.players.find do |player|
-      player.name == name
-    end
-
-    # if it does not exist, create it
-    player_one ||= Player.new(Human.new)
-    player_one.name ||= name
-    player_one.mark = "X"
+    player_one = create_human_player
 
     ## create player two
     player_two = Player.new(Computer.new)
@@ -72,7 +59,9 @@ class TicTacToe
       player = current_player(player_one, player_two)
       # turn method goes here
       puts "#{player.name}'s turn. Enter 0-9:"
+      sleep(0.5)
       player.take_turn(board)
+      puts ""
       if board.draw?
         puts "Its a draw!"
         player_one.draw
@@ -88,6 +77,24 @@ class TicTacToe
       puts "Congratulations #{board.winner.name}!"
       board.winner.won
     end
+  end
+
+  def create_human_player
+    # establish players
+    ## create player one
+    puts "What is your name?"
+    name = gets.chomp
+
+    # if the player exists, assign it to Player One
+    player_one = Player.players.find do |player|
+      player.name == name
+    end
+
+    # if it does not exist, create it
+    player_one ||= Player.new(Human.new)
+    player_one.name ||= name
+    player_one.mark = "X"
+    player_one
   end
 
   # Print out a sorted list of the players and their scores
