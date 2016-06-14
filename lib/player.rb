@@ -14,15 +14,15 @@ class Player
     # Pass an instance of computer or human to the class
     # so that it can use the appropriate methods
     @agent = agent
+    @agent.player = self
 
     # Add the player to the master list of players if 
     # they're not already present
     @@players << self
   end
 
-  def take_turn(board)
-    agent.take_turn(board, self)
-    board.display
+  def take_turn
+    agent.take_turn
   end
 
   def won
@@ -48,4 +48,5 @@ class Player
   def name
     @agent.name
   end
+
 end

@@ -1,7 +1,7 @@
 class TicTacToe
 
   # Attribute accessors and readers
-  attr_reader :board
+  attr_reader :board, :computer
 
   # this is the main runner class, which it will stay in until exit
   def run
@@ -10,6 +10,7 @@ class TicTacToe
 
     # Initialize board
     @board = Board.new
+    @computer = Player.new(Computer.new(board))
 
     # Run game loop
     game_loop
@@ -44,39 +45,44 @@ class TicTacToe
 
   # Where actual game logic goes
   def play
-    # Clear the board for a new game
+    # clear the board for a new game
     board.clear
 
+    # create player one
     player_one = create_human_player
-
+    player_one.mark = "X"
     ## create player two
-    player_two = Player.new(Computer.new)
+    player_two = computer
     player_two.mark = "O"
 
     # keep taking turns until game is over
     until board.over?
       # whose turn is it?
-      player = current_player(player_one, player_two)
-      # turn method goes here
-      puts "#{player.name}'s turn. Enter 0-9:"
-      sleep(0.5)
-      player.take_turn(board)
-      puts ""
+      current_player(player_one, player_two).take_turn
       if board.draw?
-        puts "Its a draw!"
-        player_one.draw
-        player_two.draw
+        its_a_draw(player_one, player_two)
         break
       end
     end
 
-    # deliver the results of the game
-    # increment the players' win stats
+    congratulations
+  end
+
+  # create players
+
+  # deliver results of the game and increment 
+  def congratulations
     if board.won?
       # congratulate the winner
       puts "Congratulations #{board.winner.name}!"
       board.winner.won
     end
+  end
+
+  def its_a_draw(player_one, player_two)
+    puts "Its a draw!"
+    player_one.draw
+    player_two.draw
   end
 
   def create_human_player
@@ -85,17 +91,21 @@ class TicTacToe
     puts "What is your name?"
     name = gets.chomp
 
+    check_if_player_exists(name)    
+  end
+
+  def check_if_player_exists(name)
     # if the player exists, assign it to Player One
     player_one = Player.players.find do |player|
       player.name == name
     end
 
     # if it does not exist, create it
-    player_one ||= Player.new(Human.new)
+    player_one ||= Player.new(Human.new(board))
     player_one.name ||= name
-    player_one.mark = "X"
     player_one
   end
+
 
   # Print out a sorted list of the players and their scores
   def leaderboard

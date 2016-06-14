@@ -7,16 +7,20 @@ class Board
   end
 
   # establish winning combinations
-    WIN_COMBINATIONS = [
-    [0,1,2], # top row
-    [0,3,6], # first column
-    [0,4,8], # down diagonal
-    [1,4,7], # middle column
-    [6,4,2], # up diagonal
-    [2,5,8], # last column
-    [3,4,5], # middle row
-    [6,7,8]  # bottom row
+  WIN_COMBINATIONS = [
+  [0,1,2], # top row
+  [0,3,6], # first column
+  [0,4,8], # down diagonal
+  [1,4,7], # middle column
+  [6,4,2], # up diagonal
+  [2,5,8], # last column
+  [3,4,5], # middle row
+  [6,7,8]  # bottom row
   ]
+  # establish categories
+  CORNERS = [0, 2, 6, 8]
+  CENTER = [4]
+  SIDES = [1, 3, 5, 7]
 
   def clear
     @grid = Array.new(9)
@@ -61,8 +65,8 @@ class Board
   def won?
     WIN_COMBINATIONS.detect do |combo|
       x_win = marks[combo[0]] == "X" && marks[combo[1]] == "X" && marks[combo[2]] == "X"
-      y_win = marks[combo[0]] == "O" && marks[combo[1]] == "O" && marks[combo[2]] == "O"
-      x_win || y_win
+      o_win = marks[combo[0]] == "O" && marks[combo[1]] == "O" && marks[combo[2]] == "O"
+      x_win || o_win
     end
   end
 
