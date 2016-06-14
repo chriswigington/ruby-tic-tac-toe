@@ -12,6 +12,5 @@ class Computer
     else
       take_turn(board, player)
     end
-    board.display
   end
 end

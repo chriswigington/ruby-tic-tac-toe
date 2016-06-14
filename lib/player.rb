@@ -22,6 +22,7 @@ class Player
 
   def take_turn(board)
     agent.take_turn(board, self)
+    board.display
   end
 
   def won

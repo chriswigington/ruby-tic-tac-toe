@@ -11,6 +11,5 @@ class Human
       puts "Please enter valid move:"
       take_turn(board, player)
     end
-    board.display
   end
 end

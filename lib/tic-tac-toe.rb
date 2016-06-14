@@ -44,12 +44,22 @@ class TicTacToe
 
   # Where actual game logic goes
   def play
+    # Clear the board for a new game
     board.clear
+
     # establish players
     ## create player one
-    player_one = Player.new(Human.new)
     puts "What is your name?"
-    player_one.name = gets.chomp
+    name = gets.chomp
+
+    # if the player exists, assign it to Player One
+    player_one = Player.players.find do |player|
+      player.name == name
+    end
+
+    # if it does not exist, create it
+    player_one ||= Player.new(Human.new)
+    player_one.name ||= name
     player_one.mark = "X"
 
     ## create player two
@@ -64,12 +74,15 @@ class TicTacToe
       puts "#{player.name}'s turn. Enter 0-9:"
       player.take_turn(board)
       if board.draw?
+        puts "Its a draw!"
+        player_one.draw
+        player_two.draw
         break
       end
     end
 
     # deliver the results of the game
-    # increment the players' stats
+    # increment the players' win stats
     if board.won?
       # congratulate the winner
       puts "Congratulations #{board.winner.name}!"
