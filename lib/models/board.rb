@@ -6,6 +6,10 @@ class Board
     clear
   end
 
+  def clear
+    @grid = Array.new(9)
+  end
+
   # establish winning combinations
   WIN_COMBINATIONS = [
   [0,1,2], # top row
@@ -21,10 +25,6 @@ class Board
   CORNERS = [0, 2, 6, 8]
   CENTER = [4]
   SIDES = [1, 3, 5, 7]
-
-  def clear
-    @grid = Array.new(9)
-  end
 
   def marks
     grid.map do |spot|

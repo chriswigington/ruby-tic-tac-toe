@@ -1,11 +1,15 @@
 #!/usr/bin/env ruby
 require 'pry'
 
-require_relative '../lib/board.rb'
-require_relative '../lib/human.rb'
-require_relative '../lib/computer.rb'
+# load interface
 require_relative '../lib/tic-tac-toe.rb'
-require_relative '../lib/player.rb'
+# load models
+require_relative '../lib/models/board.rb'
+require_relative '../lib/models/human.rb'
+require_relative '../lib/models/computer.rb'
+require_relative '../lib/models/player.rb'
+# load services
+## load services here
 
 game = TicTacToe.new
-game.run
+game.run 
